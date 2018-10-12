@@ -1,0 +1,40 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LivelyRoots</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper light-green lighten-1">
+                <a href="#" class="brand-logo"><img src="{% static 'img/logo.svg' %}"></a>
+                <ul class="right">
+                    <li><a href="#">Sass</a></li>
+                    <li><a href="#">Components</a></li>
+                    <li><a href="#">JavaScript</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer class="page-footer light-green lighten-1">
+        <ul class="left">
+            <a href="#"><li>About</li></a>
+            <a href="#"><li>FAQ</li></a>
+            <a href="#"><li>Contact</li></a>
+        </ul>
+        <p class="right">&copy; 2018 Sarah Stensberg</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

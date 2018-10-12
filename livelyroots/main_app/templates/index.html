@@ -1,18 +1,37 @@
-{% load staticfiles %}
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LivelyRoots</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    <h1>test</h1>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
-</html>
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col s6">
+                <h3>LivelyRoots</h3>
+                <h5>For families who just want to connect.</h6>
+            </div>
+            <div class="col s6">
+                <h3>Features</h3>
+                <div class="row">
+                    <div class="col s4">
+                        feature1
+                    </div>
+                    <div class="col s4">
+                        feature2
+                    </div>
+                    <div class="col s4">
+                        feature3
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        feature4
+                    </div>
+                    <div class="col s4">
+                        feature5
+                    </div>
+                    <div class="col s4">
+                        feature6
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
