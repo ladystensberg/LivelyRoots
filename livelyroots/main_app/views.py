@@ -16,7 +16,10 @@ def contact(request):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
             send_mail('LivelyRoots Contact Form', message, email, ['ladystensberg@gmail.com'], fail_silently=False)
-        return HttpResponseRedirect('/') ##change this to form success page
+        return HttpResponseRedirect('/contact/sent') ##change this to form success page
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+def contact_sent(request):
+    return render(request, 'contact_sent.html')
