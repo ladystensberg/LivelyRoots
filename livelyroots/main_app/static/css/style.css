@@ -1,8 +1,6 @@
 /* PRIMARY COLOR: #9ccc65 */
 /* COMPLIMENTARY COLOR: #cc659c */
 
-
-
 body {
     display: flex;
     min-height: 100vh;
@@ -61,7 +59,7 @@ li a {
     font-size: 14pt;
 }
 
-#index-content h3 {
+h3 {
     font-family: 'Pacifico', cursive;
     font-size: 40pt;
     color: #9ccc65;
@@ -75,6 +73,20 @@ li a {
     color: #cc659c;
 }
 
-#features h3 {
-    text-align: justify;
+#faqs {
+    margin-top: 200px;
+    margin-left: 200px;
+}
+
+#faqs h4 {
+    color: #cc659c;
+    font-weight: bold;
+}
+
+#faqs p {
+    font-size: 14pt;
+}
+
+#contact {
+    margin-top: 400px;
 }
