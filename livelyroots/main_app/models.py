@@ -24,7 +24,7 @@ class Member(models.Model):
         return f"{self.member.username}'s birthday is {self.birth_date}. Location is {self.location}."
 
 class Post(models.Model):
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     content = models.TextField()
     member = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -32,7 +32,7 @@ class Post(models.Model):
         return f"{self.date}. {self.content}. {self.member.username}"
 
 class Comment(models.Model):
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     content = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     member = models.ForeignKey(User, on_delete=models.CASCADE)
