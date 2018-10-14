@@ -87,7 +87,11 @@ h3 {
     font-size: 14pt;
 }
 
-#contact-form {
+#contact-form, #login-form {
+    margin-top: 200px;
+}
+
+#signup-form {
     margin-top: 200px;
 }
 

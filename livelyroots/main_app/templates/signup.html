@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load materializecss %}
+
+{% block main %}
+<div class="container">
+    <div id="signup-form">
+        <h3>Sign Up</h3>
+        <form method="POST" action=".">
+            {% csrf_token %}
+            {{ form | materializecss }}
+            <input class="btn" type="submit" value="Sign Up" />
+        </form>
+    </div>
+</div>
+{% endblock %}
