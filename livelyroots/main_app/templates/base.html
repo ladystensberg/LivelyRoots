@@ -21,7 +21,7 @@
                 <a href="{% url 'index' %}" class="brand-logo"><img src="{% static 'img/logo.svg' %}"></a>
                 <ul class="right">
                     {% if user.is_authenticated %}
-                    <li><a href="#">Hi, {{ user.firstname }}!</a></li>
+                    <li><a href="#">Hi, {{ user.first_name }}!</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>

@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import ContactForm, LoginForm
+from .forms import ContactForm, LoginForm, SignUpForm
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -58,11 +57,11 @@ def logout_view(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/')
+            return HttpResponseRedirect('/')
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
