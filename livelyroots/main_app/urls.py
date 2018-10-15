@@ -11,4 +11,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('user/<username>/', views.profile, name='profile'),
     path('family/create/', views.FamilyCreate.as_view(), name='family_create'),
+    path('family/join/', views.join_family, name='join_family'),
 ]

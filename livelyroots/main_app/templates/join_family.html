@@ -4,9 +4,9 @@
 {% block main %}
 <div class="container">
     <div id="contact-form">
-        <h3>Create New Family</h3>
-        <p>Please do not use this form if you were given a family code.</p>
-        <p>If you already have a family code, please add yourself to that family <a href="{% url 'join_family' %}">here</a>.</p>
+        <h3>Join A Family</h3>
+        <p>Please do not use this form if you do not have a family code.</p>
+        <p>If you do NOT have a family code, please create a new family <a href="{% url 'family_create' %}">here</a>.</p>
         <form method="POST" action=".">
             {% csrf_token %}
             {{ form | materializecss }}

@@ -31,3 +31,5 @@ class SignUpForm(UserCreationForm):
             user.save()
         return user
 
+class JoinFamily(Form):
+    family_code = CharField(max_length=2000)

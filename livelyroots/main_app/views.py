@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import ContactForm, LoginForm, SignUpForm
+from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily
 from .models import Family, Member
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -13,8 +13,6 @@ class FamilyCreate(CreateView):
     model = Family
     fields = ['family_name']
 
-    
-
     def form_valid(self, form):
         user = self.request.user.id
         self.object = form.save(commit=True)
@@ -23,6 +21,18 @@ class FamilyCreate(CreateView):
         form.save()
         return HttpResponseRedirect('/')
 
+def join_family(request):
+    if request.method == 'POST':
+        form = JoinFamily(request.POST)
+        if form.is_valid():
+            family_code = form.cleaned_data['family_code']
+            user = request.user
+            family = Family.objects.get(family_code=family_code)
+            family.members.add(user)
+            return HttpResponseRedirect('/')
+    else:
+        form = JoinFamily()
+    return render(request, 'join_family.html', {'form': form})
 
 def index(request):
     return render(request, 'index.html')
@@ -37,7 +47,7 @@ def contact(request):
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
             send_mail('LivelyRoots Contact Form', message, email, ['ladystensberg@gmail.com'], fail_silently=False)
-        return HttpResponseRedirect('/contact/sent') ##change this to form success page
+        return HttpResponseRedirect('/contact/sent')
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
@@ -47,7 +57,6 @@ def contact_sent(request):
 
 def login_view(request):
     if request.method == 'POST':
-        # if post, then authenticate (user submitted username and password)
         form = LoginForm(request.POST)
         if form.is_valid():
             u = form.cleaned_data['username']
