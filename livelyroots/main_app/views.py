@@ -9,6 +9,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+# class FamilyCreate(CreateView):
+#     model = Family
+#     fields = ['family_name']
+
+# class MemberCreate(CreateView):
+#     model = Member
+#     fields = ['birth_date', 'location']
+
+# class MemberUpdate(UpdateView):
+#     model = Member
+#     fields = ['birth_date', 'location']
+
 def index(request):
     return render(request, 'index.html')
 

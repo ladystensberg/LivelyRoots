@@ -104,7 +104,11 @@ h3 {
     color: #cc659c;
 }
 
-.tabs {
-    margin-top: 50px;
-    height: 75px !important;
+.profile-page {
+    font-size: 14pt;
+}
+
+.profile-page-header {
+    font-family: 'Pacifico', cursive;
+    color: #cc659c;
 }
