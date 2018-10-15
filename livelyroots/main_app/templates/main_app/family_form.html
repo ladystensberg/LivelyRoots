@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load materializecss %}
+
+{% block main %}
+<div class="container">
+    <div id="contact-form">
+        <h3>Create New Family</h3>
+        <p>Please do not use this form if you were given a family code.</p>
+        <p>If you already have a family code, please add yourself to that family <a href="#">here</a>.</p>
+        <form method="POST" action=".">
+            {% csrf_token %}
+            {{ form | materializecss }}
+            <input class="btn" type="submit" value="Submit" />
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -27,8 +27,8 @@
                 <li>{{ family.family_name }}</li>
                 {% endfor %}
             </ul>
-            <a href="#" class="btn">Add A Family</a>
-            <a href="#" class="btn">Create A Family</a>
+            <a href="#" class="btn">Join Family</a>
+            <a href="{% url 'family_create' %}" class="btn">Create A Family</a>
             <a href="#" class="btn red accent-1">Remove A Family</a>
         </div>
     </div>

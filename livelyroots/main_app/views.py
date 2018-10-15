@@ -9,17 +9,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-# class FamilyCreate(CreateView):
-#     model = Family
-#     fields = ['family_name']
+class FamilyCreate(CreateView):
+    model = Family
+    fields = ['family_name']
 
-# class MemberCreate(CreateView):
-#     model = Member
-#     fields = ['birth_date', 'location']
+    
 
-# class MemberUpdate(UpdateView):
-#     model = Member
-#     fields = ['birth_date', 'location']
+    def form_valid(self, form):
+        user = self.request.user.id
+        self.object = form.save(commit=True)
+        family = Family.objects.get(id=self.object.id)
+        family.members.add(user)
+        form.save()
+        return HttpResponseRedirect('/')
+
 
 def index(request):
     return render(request, 'index.html')
@@ -88,3 +91,4 @@ def profile(request, username):
         return render(request, 'profile.html', {'username': username, 'families': families, 'members': members})
     else:
         return HttpResponseRedirect('/')
+
