@@ -103,3 +103,8 @@ h3 {
 #thank-you-msg h3 {
     color: #cc659c;
 }
+
+.tabs {
+    margin-top: 50px;
+    height: 75px !important;
+}

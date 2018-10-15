@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import ContactForm, LoginForm, SignUpForm
+from .models import Family, Member
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth import authenticate, login, logout
@@ -65,3 +66,13 @@ def signup(request):
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
+
+# @login_required
+def profile(request, username):
+    if username == request.user.username:
+        user = User.objects.get(username=username)
+        members = Member.objects.filter(member_id=user)
+        families = Family.objects.filter(members=user)
+        return render(request, 'profile.html', {'username': username, 'families': families, 'members': members})
+    else:
+        return HttpResponseRedirect('/')

@@ -19,9 +19,9 @@
         <nav>
             <div class="nav-wrapper light-green lighten-1">
                 <a href="{% url 'index' %}" class="brand-logo"><img src="{% static 'img/logo.svg' %}"></a>
-                <ul class="right">
+                <ul class="right nav-base">
                     {% if user.is_authenticated %}
-                    <li><a href="#">Hi, {{ user.first_name }}!</a></li>
+                    <li><a href="{% url 'profile' user.username %}">Hi, {{ user.first_name }}!</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
