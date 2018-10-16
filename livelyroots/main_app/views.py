@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily
 from .models import Family, Member
 from django.core.mail import send_mail
@@ -16,11 +17,12 @@ class FamilyCreate(CreateView):
 
     def form_valid(self, form):
         user = self.request.user.id
+        username = self.request.user.username
         self.object = form.save(commit=True)
         family = Family.objects.get(id=self.object.id)
         family.members.add(user)
         form.save()
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('profile', kwargs={'username': self.request.user}))
 
 
 @login_required(login_url='/login/')
