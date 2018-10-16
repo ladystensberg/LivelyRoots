@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+@method_decorator(login_required, name='dispatch')
 class FamilyCreate(CreateView):
     model = Family
     fields = ['family_name']
@@ -21,6 +22,8 @@ class FamilyCreate(CreateView):
         form.save()
         return HttpResponseRedirect('/')
 
+
+@login_required(login_url='/login/')
 def join_family(request):
     if request.method == 'POST':
         form = JoinFamily(request.POST)
@@ -91,7 +94,7 @@ def signup(request):
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})
 
-# @login_required
+@login_required(login_url='/login/')
 def profile(request, username):
     if username == request.user.username:
         user = User.objects.get(username=username)
