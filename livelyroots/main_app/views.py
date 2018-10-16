@@ -20,9 +20,9 @@ class FamilyCreate(CreateView):
         username = self.request.user.username
         self.object = form.save(commit=True)
         family = Family.objects.get(id=self.object.id)
-        family.members.add(user)
+        family.users.add(user)
         form.save()
-        return HttpResponseRedirect(reverse('profile', kwargs={'username': self.request.user}))
+        return HttpResponseRedirect(reverse('profile', kwargs={'username': username}))
 
 @login_required(login_url='/login/')
 def join_family(request):
@@ -32,8 +32,8 @@ def join_family(request):
             family_code = form.cleaned_data['family_code']
             user = request.user
             family = Family.objects.get(family_code=family_code)
-            family.members.add(user)
-            return HttpResponseRedirect(reverse('profile', kwargs={'username': self.request.user}))
+            family.users.add(user)
+            return HttpResponseRedirect(reverse('profile', kwargs={'username': user}))
     else:
         form = JoinFamily()
     return render(request, 'join_family.html', {'form': form})
@@ -99,8 +99,8 @@ def signup(request):
 def profile(request, username):
     if username == request.user.username:
         user = User.objects.get(username=username)
-        members = Member.objects.filter(member_id=user)
-        families = Family.objects.filter(members=user)
+        members = Member.objects.filter(user_id=user)
+        families = Family.objects.filter(users=user)
         return render(request, 'profile.html', {'username': username, 'families': families, 'members': members})
     else:
         return HttpResponseRedirect('/')
@@ -116,3 +116,16 @@ def delete_user(request, username):
 def delete_user_confirm(request, username):
     username = request.user.username
     return render(request, 'delete_user_confirm.html', {'username': username})
+
+def post_feed(request):
+    returned_posts = []
+    family_members = []
+    user_families = request.user.family_set.all()
+    for family in user_families:
+        for user in family.users.all():
+            family_members.append(user)
+            posts = user.post_set.all()
+            for post in posts:
+                returned_posts.append(post.content)
+    print(returned_posts)
+    return render(request, 'post_feed.html', {'returned_posts': returned_posts, 'family_members': family_members})
