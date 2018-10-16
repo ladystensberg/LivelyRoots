@@ -24,7 +24,6 @@ class FamilyCreate(CreateView):
         form.save()
         return HttpResponseRedirect(reverse('profile', kwargs={'username': self.request.user}))
 
-
 @login_required(login_url='/login/')
 def join_family(request):
     if request.method == 'POST':
@@ -34,7 +33,7 @@ def join_family(request):
             user = request.user
             family = Family.objects.get(family_code=family_code)
             family.members.add(user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(reverse('profile', kwargs={'username': self.request.user}))
     else:
         form = JoinFamily()
     return render(request, 'join_family.html', {'form': form})
@@ -106,3 +105,14 @@ def profile(request, username):
     else:
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/login/')
+def delete_user(request, username):
+    if username == request.user.username:
+        user = User.objects.get(username=username)
+        user.delete()
+        return HttpResponseRedirect('/')
+
+@login_required(login_url='/login/')
+def delete_user_confirm(request, username):
+    username = request.user.username
+    return render(request, 'delete_user_confirm.html', {'username': username})

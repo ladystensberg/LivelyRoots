@@ -18,7 +18,7 @@
                 {% endfor %}
             </ul>
             <a href="#" class="btn">Edit User Details</a>
-            <a href="#" class="btn red accent-1">Delete Account</a>
+            <a class="btn red accent-1" href="{% url 'delete_user_confirm' user.username%}">Delete Account</a>
         </div>
         <div class="col s6">
             <h5 class="profile-page-header">Family Memberships</h5>
