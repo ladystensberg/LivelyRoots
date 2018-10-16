@@ -15,4 +15,5 @@ urlpatterns = [
     path('family/create/', views.FamilyCreate.as_view(), name='family_create'),
     path('family/join/', views.join_family, name='join_family'),
     path('posts/', views.post_feed, name='post_feed'),
+    path('posts/create_post/', views.create_post, name='create_post'),
 ]

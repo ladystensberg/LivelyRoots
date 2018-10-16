@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily
+from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily, PostForm
 from .models import Family, Member
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -120,12 +120,21 @@ def delete_user_confirm(request, username):
 def post_feed(request):
     returned_posts = []
     family_members = []
+    user = request.user.id
     user_families = request.user.family_set.all()
+    create_post_form = PostForm()
     for family in user_families:
         for user in family.users.all():
             family_members.append(user)
             posts = user.post_set.all()
             for post in posts:
-                returned_posts.append(post.content)
-    print(returned_posts)
-    return render(request, 'post_feed.html', {'returned_posts': returned_posts, 'family_members': family_members})
+                returned_posts.append(post)
+    return render(request, 'post_feed.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
+
+def create_post(request):
+    form = PostForm(request.POST)
+    if form.is_valid():
+        new_post = form.save(commit=False)
+        new_post.user_id = request.user.id
+        new_post.save()
+    return redirect('post_feed')

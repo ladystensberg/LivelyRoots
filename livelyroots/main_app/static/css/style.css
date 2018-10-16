@@ -104,6 +104,10 @@ h3 {
     color: #cc659c;
 }
 
+#create-post-form {
+    margin-bottom: 400px !important;
+}
+
 .profile-page {
     font-size: 14pt;
 }

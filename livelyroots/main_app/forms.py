@@ -33,3 +33,11 @@ class SignUpForm(UserCreationForm):
 
 class JoinFamily(Form):
     family_code = CharField(max_length=2000)
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content']
+        widgets = {
+            'content': Textarea()
+        }
