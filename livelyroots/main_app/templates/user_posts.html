@@ -3,28 +3,17 @@
 
 {% block main %}
 <div class="container">
-    <h3>Post Feed</h3>
+    <h3>My Posts</h3>
     <div class="row">
-        <div class="col s3" id="posts_family_members">
-            <h4>My Family</h4>
-            {% for member in family_members %}
-                {% if member.id != user.id %}
-                    <p>{{ member }}</p>
-                {% endif %}
-            {% endfor %}
-        </div>
         <div class="col s9" id="posts_feed">
-            <h4>Family Posts</h4>
             <form action="{% url 'create_post' %}" method="POST" id="create-post-form">
                 {% csrf_token %}
                 {{ create_post_form | materializecss }}
                 <input type="submit" class="btn" value="Create Post">
             </form>
-            {% for post in returned_posts %}
-                {% if post.user_id != user.id %}
+            {% for post in posts %}
                 <div class="card horizontal">
                     <div class="card-stacked">
-                        <div class="card-title">{{ post.user.first_name }}</div>
                         <div class="card-content">
                             <p>{{ post.content }}</p>
                         </div>
@@ -33,7 +22,6 @@
                         </div>
                     </div>
                 </div>
-                {% endif %}
             {% endfor %}
         </div>
     </div>

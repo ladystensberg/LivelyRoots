@@ -69,7 +69,7 @@ def login_view(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/posts')
                 else:
                     print("The account has been disabled.")
                     return HttpResponseRedirect('/')
@@ -117,6 +117,8 @@ def delete_user_confirm(request, username):
     username = request.user.username
     return render(request, 'delete_user_confirm.html', {'username': username})
 
+
+@login_required(login_url='/login/')
 def post_feed(request):
     returned_posts = []
     family_members = []
@@ -131,10 +133,21 @@ def post_feed(request):
                 returned_posts.append(post)
     return render(request, 'post_feed.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
 
+def user_posts(request, username):
+    if username == request.user.username:
+        create_post_form = PostForm()
+        user = User.objects.get(username=username)
+        posts = user.post_set.all()
+        return render(request, 'user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
+    else:
+        return HttpResponseRedirect('/')
+
+@login_required(login_url='/login/')
 def create_post(request):
     form = PostForm(request.POST)
+    username = request.user.username
     if form.is_valid():
         new_post = form.save(commit=False)
         new_post.user_id = request.user.id
         new_post.save()
-    return redirect('post_feed')
+    return HttpResponseRedirect(reverse('user_posts', kwargs={'username': username}))

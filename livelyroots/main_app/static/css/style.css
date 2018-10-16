@@ -47,6 +47,17 @@ li a {
     font-size: 14pt !important;
 }
 
+h3 {
+    font-family: 'Pacifico', cursive;
+    font-size: 40pt;
+    color: #9ccc65;
+}
+
+h4 {
+    color: #cc659c !important;
+    font-family: 'Pacifico', cursive !important;
+}
+
 #index-content {
     margin-top: 130px;
 }
@@ -57,12 +68,6 @@ li a {
 
 #index-content p {
     font-size: 14pt;
-}
-
-h3 {
-    font-family: 'Pacifico', cursive;
-    font-size: 40pt;
-    color: #9ccc65;
 }
 
 #index-content h5 {
@@ -105,7 +110,7 @@ h3 {
 }
 
 #create-post-form {
-    margin-bottom: 400px !important;
+    margin-bottom: 50px !important;
 }
 
 .profile-page {

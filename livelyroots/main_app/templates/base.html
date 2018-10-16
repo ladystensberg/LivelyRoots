@@ -22,6 +22,8 @@
                 <ul class="right nav-base">
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' user.username %}">Hi, {{ user.first_name }}!</a></li>
+                    <li><a href="{% url 'post_feed' %}">Post Feed</a></li>
+                    <li><a href="{% url 'user_posts' user.username %}">My Posts</a></li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
