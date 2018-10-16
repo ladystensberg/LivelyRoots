@@ -1,5 +1,5 @@
 from django.forms import ModelForm, Form, CharField, PasswordInput, EmailField, Textarea, TextInput
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Family, User
 
 class ContactForm(Form):
