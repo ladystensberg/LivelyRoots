@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form, CharField, PasswordInput, EmailField, Textarea, TextInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import Family, User, Post
+from .models import Family, User, Post, Comment
 
 class ContactForm(Form):
     email = EmailField()
@@ -37,6 +37,14 @@ class JoinFamily(Form):
 class PostForm(ModelForm):
     class Meta:
         model = Post
+        fields = ['content']
+        widgets = {
+            'content': Textarea()
+        }
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
         fields = ['content']
         widgets = {
             'content': Textarea()

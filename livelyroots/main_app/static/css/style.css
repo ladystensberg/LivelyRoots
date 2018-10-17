@@ -53,9 +53,13 @@ h3 {
     color: #9ccc65;
 }
 
-h4 {
+h4, h5 {
     color: #cc659c !important;
     font-family: 'Pacifico', cursive !important;
+}
+
+p {
+    font-size: 15pt;
 }
 
 #index-content {
@@ -100,13 +104,13 @@ h4 {
     margin-top: 200px;
 }
 
-#thank-you-msg {
+#message {
     margin-top: 200px;
     text-align: center;
 }
 
-#thank-you-msg h3 {
-    color: #cc659c;
+#message h3 {
+    color: #cc659c !important;
 }
 
 #create-post-form {
@@ -116,6 +120,10 @@ h4 {
 #posts-feed {
     margin-bottom: 200px !important;
     margin-top: 200px !important;
+}
+
+#post-detail-page {
+    margin-top: 100px !important;
 }
 
 .profile-page {

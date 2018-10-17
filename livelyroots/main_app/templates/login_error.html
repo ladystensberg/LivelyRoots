@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container" id="message">
+    <h3>An error has occurred. Please try to <a href="{% url 'login' %}">login</a> again or <a href="{% url 'contact' %}">contact support</a> for assistance.</h3>
+</div>
+{% endblock %}

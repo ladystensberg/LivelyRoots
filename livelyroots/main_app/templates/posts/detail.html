@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load materializecss %}
+
+{% block main %}
+<div class="container" id="post-detail-page">
+    <div class="row">
+        <div class="col s6">
+            <div class="card">
+                <div class="card-content">
+                    <h3>{{ post.user.first_name }}:</h3>
+                    <p>{{ post.content }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col s6">
+            <form action="{% url 'add_comment' post.id %}" method="POST" id="create-comment-form">
+                {% csrf_token %}
+                {{ add_comment_form | materializecss }}
+                <input type="submit" class="btn" value="Add Comment">
+            </form>
+            <ul class="collection">
+                {% for comment in comments %}
+                <li class="collection-item"><h5>{{ comment.user.username }}</h5><p>{{comment.content}}</p></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

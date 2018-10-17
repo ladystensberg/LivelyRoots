@@ -13,8 +13,9 @@
                         <a href="{% url 'user_posts' member.username %}" class="collection-item avatar"><li>
                             <img src="https://openclipart.org/download/277089/Female-Avatar-5.svg" alt="" class="avatar circle">
                             <span class="title">{{ member }}</span>
-                            {% if member.post_set.count > 0 %}
-                            <span class="new badge" data-badge-caption="post(s)">{{ member.post_set.count }}</span>
+                            {% if member.post.date %}
+                            {{ today }}
+                            <span class="new badge" data-badge-caption="new posts">{{ member.post_set.count }}</span>
                             {% endif %} 
                         </li></a>
                     {% endif %}
@@ -32,7 +33,7 @@
                             <p>{{ post.user.username }}: {{ post.content }}</p>
                         </div>
                         <div class="card-action">
-                            <a href="#" class="btn-small">Comment</a>
+                            <a href="{% url 'view_post' post.id %}" class="btn-small">Comment</a>
                             {% if post.comment_set.count > 0 %}
                             <span class="new badge" data-badge-caption="comment(s)">{{ post.comment_set.count }}</span>
                             {% endif %}

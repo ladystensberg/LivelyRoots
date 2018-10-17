@@ -1,14 +1,16 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily, PostForm
-from .models import Family, Member
+from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily, PostForm, CommentForm
+from .models import Family, Member, Post, Comment
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from datetime import datetime
+from django.contrib import messages
 
 @method_decorator(login_required, name='dispatch')
 class FamilyCreate(CreateView):
@@ -71,14 +73,15 @@ def login_view(request):
                     login(request, user)
                     return HttpResponseRedirect('/posts')
                 else:
-                    print("The account has been disabled.")
-                    return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/login_error')
             else:
-                print("The username and/or password is incorrect.")
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/login_error')
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
+
+def login_error(request):
+    return render(request, 'login_error.html')
 
 def logout_view(request):
     logout(request)
@@ -115,7 +118,7 @@ def delete_user(request, username):
 @login_required(login_url='/login/')
 def delete_user_confirm(request, username):
     username = request.user.username
-    return render(request, 'delete_user_confirm.html', {'username': username})
+    return render(request, 'user/delete_user_confirm.html', {'username': username})
 
 
 @login_required(login_url='/login/')
@@ -131,14 +134,14 @@ def post_feed(request):
             posts = user.post_set.all()
             for post in posts:
                 returned_posts.append(post)
-    return render(request, 'post_feed.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
+    return render(request, 'posts/index.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
 
 @login_required(login_url='/login/')
 def user_posts(request, username):
     create_post_form = PostForm()
     user = User.objects.get(username=username)
     posts = user.post_set.all()
-    return render(request, 'user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
+    return render(request, 'user/user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
 
 @login_required(login_url='/login/')
 def create_post(request):
@@ -149,3 +152,23 @@ def create_post(request):
         new_post.user_id = request.user.id
         new_post.save()
     return HttpResponseRedirect(reverse('user_posts', kwargs={'username': username}))
+
+@login_required(login_url='/login/')
+def view_post(request, post_id):
+    post = Post.objects.get(id=post_id)
+    comments = Comment.objects.filter(post_id=post_id)
+    add_comment_form = CommentForm()
+    return render(request, 'posts/detail.html', {
+    	'post': post, 'comments': comments, 'add_comment_form': add_comment_form
+    })
+
+@login_required(login_url='/login/')
+def add_comment(request, post_id):
+    form = CommentForm(request.POST)
+    post = Post.objects.get(id=post_id)
+    if form.is_valid():
+        new_comment = form.save(commit=False)
+        new_comment.user_id = request.user.id
+        new_comment.post_id = post_id
+        new_comment.save()
+    return HttpResponseRedirect(reverse('view_post', kwargs={'post_id': post_id}))
