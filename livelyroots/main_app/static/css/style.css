@@ -113,6 +113,11 @@ h4 {
     margin-bottom: 50px !important;
 }
 
+#posts-feed {
+    margin-bottom: 200px !important;
+    margin-top: 200px !important;
+}
+
 .profile-page {
     font-size: 14pt;
 }
@@ -120,4 +125,13 @@ h4 {
 .profile-page-header {
     font-family: 'Pacifico', cursive;
     color: #cc659c;
+}
+
+.collection {
+    border: none !important;
+    margin-top: 40px;
+}
+
+.collection a {
+    border: none !important;
 }

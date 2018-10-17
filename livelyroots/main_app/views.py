@@ -133,14 +133,12 @@ def post_feed(request):
                 returned_posts.append(post)
     return render(request, 'post_feed.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
 
+@login_required(login_url='/login/')
 def user_posts(request, username):
-    if username == request.user.username:
-        create_post_form = PostForm()
-        user = User.objects.get(username=username)
-        posts = user.post_set.all()
-        return render(request, 'user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
-    else:
-        return HttpResponseRedirect('/')
+    create_post_form = PostForm()
+    user = User.objects.get(username=username)
+    posts = user.post_set.all()
+    return render(request, 'user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
 
 @login_required(login_url='/login/')
 def create_post(request):
