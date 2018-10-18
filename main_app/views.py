@@ -71,15 +71,16 @@ def login_view(request):
                     login(request, user)
                     return HttpResponseRedirect('/posts')
                 else:
-                    return HttpResponseRedirect('/login_error')
+                    form = LoginForm()
+                    errMsg = "This account has been disabled. Please contact support for assistance."
+                    return render(request, 'login.html', {'form': form, 'err': errMsg})
             else:
-                return HttpResponseRedirect('/login_error')
+                form = LoginForm()
+                errMsg = "Your username and/or password is incorrect. Please try again."
+                return render(request, 'login.html', {'form': form, 'err': errMsg})
     else:
         form = LoginForm()
         return render(request, 'login.html', {'form': form})
-
-def login_error(request):
-    return render(request, 'login_error.html')
 
 def logout_view(request):
     logout(request)
@@ -92,6 +93,10 @@ def signup(request):
             user = form.save()
             login(request, user)
             return HttpResponseRedirect('/')
+        else:
+            form = SignUpForm()
+            errMsg = "One or more fields was invalid, please try again."
+            return render(request, 'signup.html', {'form': form, 'err': errMsg})
     else:
         form = SignUpForm()
         return render(request, 'signup.html', {'form': form})

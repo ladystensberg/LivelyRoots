@@ -5,6 +5,7 @@
 <div class="container">
     <div id="login-form">
         <h3>Login</h3>
+        <h5>{{ err }}</h5>
         <form method="POST" action=".">
             {% csrf_token %}
             {{ form | materializecss }}
