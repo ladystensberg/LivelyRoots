@@ -126,6 +126,11 @@ p {
     margin-top: 100px !important;
 }
 
+#error-family {
+    text-align: center;
+    margin-top: 200px;
+}
+
 .profile-page {
     font-size: 14pt;
 }

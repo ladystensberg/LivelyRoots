@@ -130,14 +130,18 @@ def post_feed(request):
     family_members = []
     user = request.user.id
     user_families = request.user.family_set.all()
-    create_post_form = PostForm()
-    for family in user_families:
-        for user in family.users.all():
-            family_members.append(user)
-            posts = user.post_set.all()
-            for post in posts:
-                returned_posts.append(post)
-    return render(request, 'posts/index.html', {'user': user, 'returned_posts': returned_posts, 'family_members': family_members})
+    if user_families.count() == 0:
+        error = True
+        return render(request, 'posts/index.html', {'error': error})
+    else:
+        create_post_form = PostForm()
+        for family in user_families:
+            for user in family.users.all():
+                family_members.append(user)
+                posts = user.post_set.all()
+                for post in posts:
+                    returned_posts.append(post)
+        return render(request, 'posts/index.html', {'user': user, 'returned_posts': returned_posts, 'family_members': family_members})
 
 @login_required(login_url='/login/')
 def user_posts(request, username):

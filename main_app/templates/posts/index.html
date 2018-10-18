@@ -5,9 +5,11 @@
 <div class="container">
     
     {% if error %}
-    <h3>Please join or create a family</h3>
-    <a href="#" class="btn-large">Join a Family</a>
-    <a href="#" class="btn-large">Create a Family</a>
+    <div id="error-family">
+        <h3>Please join or create a family</h3>
+        <a href="{% url 'join_family' %}" class="btn">Join a Family</a>
+        <a href="{% url 'family_create' %}" class="btn">Create a Family</a>
+    </div>
     {% else %}
     <h3>Post Feed</h3>
     <div class="row">
