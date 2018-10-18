@@ -148,6 +148,9 @@ def user_posts(request, username):
     create_post_form = PostForm()
     user = User.objects.get(username=username)
     posts = user.post_set.all()
+    if posts.count() == 0 and request.user.username != username:
+        error = True
+        return render(request, 'user/user_posts.html', {'username':username, 'error':error})
     return render(request, 'user/user_posts.html', {'username': username, 'posts': posts, 'create_post_form': create_post_form})
 
 @login_required(login_url='/login/')
