@@ -137,7 +137,7 @@ def post_feed(request):
             posts = user.post_set.all()
             for post in posts:
                 returned_posts.append(post)
-    return render(request, 'posts/index.html', {'user': user, 'create_post_form': create_post_form, 'returned_posts': returned_posts, 'family_members': family_members})
+    return render(request, 'posts/index.html', {'user': user, 'returned_posts': returned_posts, 'family_members': family_members})
 
 @login_required(login_url='/login/')
 def user_posts(request, username):

@@ -3,6 +3,12 @@
 
 {% block main %}
 <div class="container">
+    
+    {% if error %}
+    <h3>Please join or create a family</h3>
+    <a href="#" class="btn-large">Join a Family</a>
+    <a href="#" class="btn-large">Create a Family</a>
+    {% else %}
     <h3>Post Feed</h3>
     <div class="row">
         <div class="col s3" id="posts_family_members">
@@ -44,5 +50,6 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
