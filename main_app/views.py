@@ -174,6 +174,9 @@ def post_feed(request):
     if user_families.count() == 0:
         error = True
         return render(request, 'posts/index.html', {'error': error})
+    elif len(family_members) == 0:
+        error2 = True
+        return render(request, 'posts/index.html', {'error2': error2})
     else:
         create_post_form = PostForm()
         for family in user_families:

@@ -5,10 +5,15 @@
 <div class="container">
     {% if error %}
     <div id="error-family">
-        <h3>Please join or create a family</h3>
+        <h4>Please join or create a family</h4>
         <a href="{% url 'join_family' %}" class="btn">Join a Family</a>
         <a href="{% url 'family_create' %}" class="btn">Create a Family</a>
     </div>
+    {% elif error2 %}
+        <div id="error-family">
+            <h4>You have no family members! Please invite them using the family codes on your profile.</h4>
+            <a href="{% url 'profile' user.username %}" class="btn">View Profile</a>
+        </div>
     {% else %}
     <h3>Post Feed</h3>
     <div class="row">
