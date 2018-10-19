@@ -15,47 +15,47 @@
             <a href="{% url 'profile' user.username %}" class="btn">View Profile</a>
         </div>
     {% else %}
-    <h3>Post Feed</h3>
-    <div class="row">
-        <div class="col s3" id="posts_family_members">
-            <h4>My Family</h4>
-            <ul class="collection">
-                {% for member in family_members %}
-                    {% if member.id != user.id %}
-                        <a href="{% url 'user_posts' member.username %}" class="collection-item avatar"><li>
-                            <img src="https://openclipart.org/download/277089/Female-Avatar-5.svg" alt="" class="avatar circle">
-                            <span class="title">{{ member }}</span>
-                            {% if member.post.date %}
-                            {{ today }}
-                            <span class="new badge" data-badge-caption="new posts">{{ member.post_set.count }}</span>
-                            {% endif %} 
-                        </li></a>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col s9">
-            <h4>Family Posts</h4>
-            <a href="{% url 'user_posts' user.username %}" class="btn-small">create post</a>
-            {% for post in returned_posts %}
-                {% if post.user_id != user.id %}
-                <div class="card horizontal">
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>{{ post.user.username }}: {{ post.content }}</p>
-                        </div>
-                        <div class="card-action">
-                            <a href="{% url 'view_post' post.id %}" class="btn-small">Comment</a>
-                            {% if post.comment_set.count > 0 %}
-                            <span class="new badge" data-badge-caption="comment(s)">{{ post.comment_set.count }}</span>
-                            {% endif %}
+        <h3>Post Feed</h3>
+        <div class="row">
+            <div class="col s3" id="posts_family_members">
+                <h4>My Family</h4>
+                <ul class="collection">
+                    {% for member in family_members %}
+                        {% if member.id != user.id %}
+                            <a href="{% url 'user_posts' member.username %}" class="collection-item avatar"><li>
+                                <img src="https://openclipart.org/download/277089/Female-Avatar-5.svg" alt="" class="avatar circle">
+                                <span class="title">{{ member }}</span>
+                                {% if member.post.date %}
+                                {{ today }}
+                                <span class="new badge" data-badge-caption="new posts">{{ member.post_set.count }}</span>
+                                {% endif %} 
+                            </li></a>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col s9">
+                <h4>Family Posts</h4>
+                <a href="{% url 'user_posts' user.username %}" class="btn-small">create post</a>
+                {% for post in returned_posts %}
+                    {% if post.user_id != user.id %}
+                    <div class="card horizontal">
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p>{{ post.user.username }}: {{ post.content }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="{% url 'view_post' post.id %}" class="btn-small">Comment</a>
+                                {% if post.comment_set.count > 0 %}
+                                <span class="new badge" data-badge-caption="comment(s)">{{ post.comment_set.count }}</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
-                </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
     {% endif %}
 </div>
 {% endblock %}

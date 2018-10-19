@@ -4,7 +4,9 @@
 {% block main %}
 <div class="container">
     {% if error %}
-        <h4>{{ username }} hasn't created any posts yet.</h4>
+        <div id="error-family">
+            <h4>{{ username }} hasn't created any posts yet.</h4>
+        </div>
     {% else %}
         {% if user.username == username %}
             <h3>My Posts</h3>
