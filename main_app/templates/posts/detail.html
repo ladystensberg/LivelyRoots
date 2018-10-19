@@ -10,10 +10,12 @@
                     <h3>{{ post.user.first_name }}:</h3>
                     <p>{{ post.content }}</p>
                 </div>
+                {% if user.username == post.user.username %}
                 <div class="card-action">
                     <a href="{% url 'update_post' post.id %}" class="btn-small light-green lighten-1"><i class="material-icons">create</i></a>
                     <a href="{% url 'delete_post_confirm' post.id %}" class="btn-small red accent-1"><i class="material-icons">delete</i></a>
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="col s6">
@@ -22,11 +24,20 @@
                 {{ add_comment_form | materializecss }}
                 <input type="submit" class="btn" value="Add Comment">
             </form>
-            <ul class="collection">
-                {% for comment in comments %}
-                <li class="collection-item"><h5>{{ comment.user.username }}</h5><p>{{comment.content}}</p></li>
-                {% endfor %}
-            </ul>
+            {% for comment in comments %}
+            <div class="card">
+                <div class="card-content">
+                    <h5>{{comment.user.username}}</h5>
+                    <p>{{comment.content}}</p>
+                </div>
+                {% if user.username == comment.user.username %}
+                <div class="card-action">
+                    <a href="{% url 'update_comment' comment.id %}" class="btn-small light-green lighten-1"><i class="material-icons">create</i></a>
+                    <a href="{% url 'delete_comment_confirm' post.id comment.id %}" class="btn-small red accent-1"><i class="material-icons">delete</i></a>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

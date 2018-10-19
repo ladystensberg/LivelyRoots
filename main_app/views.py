@@ -30,8 +30,14 @@ class FamilyCreate(CreateView):
         form.save()
         return HttpResponseRedirect(reverse('profile', kwargs={'username': username}))
 
+@method_decorator(login_required, name='dispatch')
 class UpdatePost(UpdateView):
     model = Post
+    fields = ['content']
+
+@method_decorator(login_required, name='dispatch')
+class UpdateComment(UpdateView):
+    model = Comment
     fields = ['content']
 
 @login_required(login_url='/login/')
@@ -121,6 +127,7 @@ def profile(request, username):
     else:
         return HttpResponseRedirect('/')
 
+@login_required(login_url='/login/')
 def edit_profile(request, username):
     if username == request.user.username:
         if request.method == 'POST':
@@ -219,3 +226,18 @@ def add_comment(request, post_id):
         new_comment.post_id = post_id
         new_comment.save()
     return HttpResponseRedirect(reverse('view_post', kwargs={'post_id': post_id}))
+
+@login_required(login_url='/login/')
+def delete_comment(request, post_id, comment_id):
+    username = request.user.username
+    if username == request.user.username:
+        post = Post.objects.get(id=post_id)
+        comment = Comment.objects.get(id=comment_id)
+        comment.delete()
+        return HttpResponseRedirect(reverse('view_post', kwargs={'post_id': post_id}))
+
+@login_required(login_url='/login/')
+def delete_comment_confirm(request, post_id, comment_id):
+    post = Post.objects.get(id=post_id)
+    comment = Comment.objects.get(id=comment_id)
+    return render(request, 'posts/delete_comment_confirm.html', {'post': post, 'comment': comment})
