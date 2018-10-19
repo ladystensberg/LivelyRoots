@@ -6,6 +6,7 @@ LivelyRoots is a social-media app built for families.
 ### Getting Started
 
 [Trello Board](https://trello.com/b/G84u9FsW/livelyroots)
+[Heroku Deploy](https://guarded-brook-19815.herokuapp.com/) 
 
 ### Built With
 * Python
