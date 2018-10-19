@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily, PostForm, CommentForm
+from django.core.exceptions import ObjectDoesNotExist
+from .forms import ContactForm, LoginForm, SignUpForm, JoinFamily, PostForm, CommentForm, ProfileForm
 from .models import Family, Member, Post, Comment
 from django.core.mail import send_mail
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -9,6 +10,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+import uuid
+import boto3
+
+S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
+BUCKET = 'livelyroots-media'
 
 @method_decorator(login_required, name='dispatch')
 class FamilyCreate(CreateView):
@@ -92,7 +98,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/posts')
         else:
             form = SignUpForm()
             errMsg = "One or more fields was invalid, please try again."
@@ -110,6 +116,19 @@ def profile(request, username):
         return render(request, 'profile.html', {'username': username, 'families': families, 'members': members})
     else:
         return HttpResponseRedirect('/')
+
+def edit_profile(request, username):
+    if username == request.user.username:
+        if request.method == 'POST':
+            form = ProfileForm(request.POST)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user_id = request.user.id
+                profile.save()
+            return HttpResponseRedirect(reverse('profile', kwargs={'username': username}))
+        else:
+            form = ProfileForm()
+            return render(request, 'user/edit_profile.html', {'username': username, 'form':form})
 
 @login_required(login_url='/login/')
 def delete_user(request, username):
@@ -137,7 +156,8 @@ def post_feed(request):
         create_post_form = PostForm()
         for family in user_families:
             for user in family.users.all():
-                family_members.append(user)
+                if user not in family_members:
+                    family_members.append(user)
                 posts = user.post_set.all()
                 for post in posts:
                     returned_posts.append(post)

@@ -1,6 +1,6 @@
 from django.forms import ModelForm, Form, CharField, PasswordInput, EmailField, Textarea, TextInput
 from django.contrib.auth.forms import UserCreationForm
-from .models import Family, User, Post, Comment
+from .models import Family, User, Post, Comment, Member
 
 class ContactForm(Form):
     email = EmailField()
@@ -49,3 +49,8 @@ class CommentForm(ModelForm):
         widgets = {
             'content': Textarea()
         }
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Member
+        fields = ['birth_date', 'location']
