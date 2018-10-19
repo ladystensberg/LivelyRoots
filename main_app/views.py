@@ -10,11 +10,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-import uuid
-import boto3
-
-S3_BASE_URL = 'https://s3-us-west-1.amazonaws.com/'
-BUCKET = 'livelyroots-media'
 
 @method_decorator(login_required, name='dispatch')
 class FamilyCreate(CreateView):
