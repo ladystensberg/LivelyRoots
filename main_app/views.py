@@ -30,6 +30,10 @@ class FamilyCreate(CreateView):
         form.save()
         return HttpResponseRedirect(reverse('profile', kwargs={'username': username}))
 
+class UpdatePost(UpdateView):
+    model = Post
+    fields = ['content']
+
 @login_required(login_url='/login/')
 def join_family(request):
     if request.method == 'POST':
@@ -191,6 +195,19 @@ def view_post(request, post_id):
     return render(request, 'posts/detail.html', {
     	'post': post, 'comments': comments, 'add_comment_form': add_comment_form
     })
+
+@login_required(login_url='/login/')
+def delete_post(request, post_id):
+    username = request.user.username
+    if username == request.user.username:
+        post = Post.objects.get(id=post_id)
+        post.delete()
+        return HttpResponseRedirect(reverse('user_posts', kwargs={'username': username}))
+
+@login_required(login_url='/login/')
+def delete_post_confirm(request, post_id):
+    post = Post.objects.get(id=post_id)
+    return render(request, 'posts/delete_post_confirm.html', {'post': post})
 
 @login_required(login_url='/login/')
 def add_comment(request, post_id):

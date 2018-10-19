@@ -10,6 +10,10 @@
                     <h3>{{ post.user.first_name }}:</h3>
                     <p>{{ post.content }}</p>
                 </div>
+                <div class="card-action">
+                    <a href="{% url 'update_post' post.id %}" class="btn-small light-green lighten-1"><i class="material-icons">create</i></a>
+                    <a href="{% url 'delete_post_confirm' post.id %}" class="btn-small red accent-1"><i class="material-icons">delete</i></a>
+                </div>
             </div>
         </div>
         <div class="col s6">
