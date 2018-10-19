@@ -24,7 +24,7 @@
             <h5 class="profile-page-header">Family Memberships</h5>
             <ul class="profile-page">
                 {% for family in families %}
-                <li>{{ family.family_name }}<a href="{% url 'remove_family' family.id %}" class="btn red accent-1">X</a></li>
+                <li>{{ family.family_name }} | {{ family.family_code }}<a href="{% url 'remove_family' family.id %}" class="btn red accent-1">X</a></li>
                 {% endfor %}
             </ul>
             <a href="{% url 'join_family' %}" class="btn">Join Family</a>
