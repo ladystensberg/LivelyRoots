@@ -27,8 +27,10 @@
                                 <p>{{ post.content }}</p>
                             </div>
                             <div class="card-action">
+                                {% if post.user_id == user.user.id %}
                                 <a href="{% url 'update_post' post.id %}" class="btn-small light-green lighten-1"><i class="material-icons">create</i></a>
                                 <a href="{% url 'delete_post_confirm' post.id %}" class="btn-small red accent-1"><i class="material-icons">delete</i></a>
+                                {% endif %}
                                 <a href="{% url 'view_post' post.id %}" class="btn-small"><i class="material-icons">insert_comment</i></a>
                                 {% if post.comment_set.count > 0 %}
                                 <span class="new badge" data-badge-caption="comment(s)">{{ post.comment_set.count }}</span>
