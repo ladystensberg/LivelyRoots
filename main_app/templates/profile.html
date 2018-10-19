@@ -17,19 +17,18 @@
                 <li><strong>Location</strong>: {{ member.location }}</li>
                 {% endfor %}
             </ul>
-            <a href="#" class="btn disabled">Edit User Details</a>
-            <a class="btn red accent-1" href="{% url 'delete_user_confirm' user.username%}">Delete Account</a>
+            <a href="{% url 'update_user' user.id %}" class="btn-small light-green lighten-1"><i class="material-icons">create</i></a>
+            <a href="{% url 'delete_user_confirm' user.username %}" class="btn-small red accent-1"><i class="material-icons">delete</i></a>
         </div>
         <div class="col s6">
             <h5 class="profile-page-header">Family Memberships</h5>
             <ul class="profile-page">
                 {% for family in families %}
-                <li>{{ family.family_name }}</li>
+                <li>{{ family.family_name }}<a href="{% url 'remove_family' family.id %}" class="btn red accent-1">X</a></li>
                 {% endfor %}
             </ul>
             <a href="{% url 'join_family' %}" class="btn">Join Family</a>
             <a href="{% url 'family_create' %}" class="btn">Create A Family</a>
-            <a href="#" class="btn red accent-1 disabled">Remove A Family</a>
         </div>
     </div>
 </div>

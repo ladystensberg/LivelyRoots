@@ -40,6 +40,13 @@ class UpdateComment(UpdateView):
     model = Comment
     fields = ['content']
 
+@method_decorator(login_required, name='dispatch')
+class UpdateUser(UpdateView):
+    model = User
+    fields = ['first_name', 'last_name', 'email']
+
+    success_url = '/'
+
 @login_required(login_url='/login/')
 def join_family(request):
     if request.method == 'POST':
@@ -53,6 +60,15 @@ def join_family(request):
     else:
         form = JoinFamily()
     return render(request, 'join_family.html', {'form': form})
+
+@login_required(login_url='/login/')
+def remove_family(request, family_id):
+    username = request.user.username
+    if username == request.user.username:
+        family = Family.objects.get(id=family_id)
+        user = request.user
+        family.users.remove(user)
+        return HttpResponseRedirect(reverse('profile', kwargs={'username': username}))
 
 def index(request):
     return render(request, 'index.html')
@@ -171,7 +187,8 @@ def post_feed(request):
                     family_members.append(user)
                 posts = user.post_set.all()
                 for post in posts:
-                    returned_posts.append(post)
+                    if post not in returned_posts:
+                        returned_posts.append(post)
         return render(request, 'posts/index.html', {'user': user, 'returned_posts': returned_posts, 'family_members': family_members})
 
 @login_required(login_url='/login/')

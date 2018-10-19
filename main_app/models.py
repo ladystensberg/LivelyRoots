@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import uuid
 
-# Create your models here.
-
 class Family(models.Model):
     def get_family_code():
         return uuid.uuid4()
@@ -15,6 +13,9 @@ class Family(models.Model):
 
     def __str__(self):
         return f"Family Name: {self.family_name}, Family Code: {self.family_code}"
+    
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'user_id': self.user.id})
 
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -23,6 +24,9 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s birthday is {self.birth_date}. Location is {self.location}."
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'user_id': self.user.id})
 
 class Post(models.Model):
     date = models.DateField(auto_now_add=True)
