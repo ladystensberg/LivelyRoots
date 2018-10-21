@@ -87,6 +87,7 @@ def contact_sent(request):
     return render(request, 'contact_sent.html')
 
 def login_view(request):
+    print(f"!!!!!!!!!! {request.user.username} login")
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -110,9 +111,8 @@ def login_view(request):
         return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
+    print(f"!!!!!!!!!! {request.user.username} logout")
     logout(request)
-    request.session.flush()
-    request.session.clear()
     return HttpResponseRedirect('/')
 
 def signup(request):
@@ -132,6 +132,7 @@ def signup(request):
 
 @login_required(login_url='/login/')
 def profile(request, username):
+    print(f"!!!!!!!!!! {request.user.username} profile")
     if username == request.user.username:
         user = User.objects.get(username=username)
         members = Member.objects.filter(user_id=user)
@@ -169,6 +170,7 @@ def delete_user_confirm(request, username):
 
 @login_required(login_url='/login/')
 def post_feed(request):
+    print(f"!!!!!!!!!! {request.user.username} post_feed")
     returned_posts = []
     family_members = []
     user = request.user.id
@@ -194,6 +196,7 @@ def post_feed(request):
 
 @login_required(login_url='/login/')
 def user_posts(request, username):
+    print(f"!!!!!!!!!! {request.user.username} user_posts")
     create_post_form = PostForm()
     user = User.objects.get(username=username)
     posts = user.post_set.all()
