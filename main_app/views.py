@@ -110,8 +110,9 @@ def login_view(request):
         return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
-    request.session.clear()
     logout(request)
+    request.session.flush()
+    request.session.clear()
     return HttpResponseRedirect('/')
 
 def signup(request):
