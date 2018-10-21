@@ -87,7 +87,6 @@ def contact_sent(request):
     return render(request, 'contact_sent.html')
 
 def login_view(request):
-    print(f"!!!!!!!!!! {request.user.username} login")
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -111,7 +110,6 @@ def login_view(request):
         return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
-    print(f"!!!!!!!!!! {request.user.username} logout")
     logout(request)
     return HttpResponseRedirect('/')
 
@@ -132,7 +130,6 @@ def signup(request):
 
 @login_required(login_url='/login/')
 def profile(request, username):
-    print(f"!!!!!!!!!! {request.user.username} profile")
     if username == request.user.username:
         user = User.objects.get(username=username)
         members = Member.objects.filter(user_id=user)
@@ -170,33 +167,30 @@ def delete_user_confirm(request, username):
 
 @login_required(login_url='/login/')
 def post_feed(request):
-    print(f"!!!!!!!!!! {request.user.username} post_feed")
     returned_posts = []
     family_members = []
-    user = request.user.id
-    user_families = request.user.family_set.all()
+    user = request.user
+    user_families = user.family_set.all()
     if user_families.count() == 0:
         error = True
         return render(request, 'posts/index.html', {'error': error})
-    if user_families.count() != 0:
-        create_post_form = PostForm()
+    elif user_families.count() != 0:
         for family in user_families:
-            for user in family.users.all():
-                if user not in family_members and user != request.user:
-                    family_members.append(user)
-                posts = user.post_set.all()
+            for member in family.users.all():
+                if member not in family_members and member != request.user:
+                    family_members.append(member)
+                posts = member.post_set.all()
                 for post in posts:
                     if post not in returned_posts:
                         returned_posts.append(post)
         if len(family_members) != 0:
-            return render(request, 'posts/index.html', {'user': user, 'returned_posts': returned_posts, 'family_members': family_members})
+            return render(request, 'posts/index.html', {'member': member, 'returned_posts': returned_posts, 'family_members': family_members})
         else:
             error2 = True
             return render(request, 'posts/index.html', {'error2': error2})
 
 @login_required(login_url='/login/')
 def user_posts(request, username):
-    print(f"!!!!!!!!!! {request.user.username} user_posts")
     create_post_form = PostForm()
     user = User.objects.get(username=username)
     posts = user.post_set.all()
