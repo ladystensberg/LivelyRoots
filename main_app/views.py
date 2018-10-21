@@ -110,6 +110,7 @@ def login_view(request):
         return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
+    request.session.clear_expired()
     logout(request)
     return HttpResponseRedirect('/')
 
